@@ -1,63 +1,88 @@
-Steps Should Flow:
-Prerequests
-Spring STS
-Postman
--------------------------------------------------------
-Project 1 
-Name : auto-email-writer-with-ai
-Group : com.email
-Artifact : email-writer-with-ai
-Package : com.email.writer.ai
+Prerequisites
+Before you begin, ensure the following are installed:
+Spring Tool Suite (STS) or any preferred Java IDE
+Java 17+
+Maven
+Postman (or any API testing tool)
+GitHub account (for getting the Gemini API key)
 
-Dependencies
+📁 Project Structure
+Property	Value
+Project Name	auto-email-writer-with-ai
+Group	com.email
+Artifact	email-writer-with-ai
+Package	com.email.writer.ai
+📦 Dependencies Used
+
 Spring Web
-Lambok
-Spring Reactiveweb
+Spring Reactive Web (WebClient)
+Lombok
+These are configured in your pom.xml.
 
-application.properties
-Main use of application.properties if you want add any sort of configuration 
+⚙️ application.properties
+This file is used to manage application-level configuration like API keys and base URLs.
 
-pom.xml
-It contain information of entire application
+Example:
 
-Explore google gemini API
+gemini.api.url=https://generativelanguage.googleapis.com
+gemini.api.key=YOUR_API_KEY_HERE
 
-To get the API
-Link : https://aistudio.google.com/apikey?pli=1
-Need to create a API key.
+📄 pom.xml
 
-Created the controller class 
+Contains dependency and build configuration for the Spring Boot application.
+🤖 Integrating Google Gemini API
+Go to: Generate Gemini API Key
+Create an API key
+Store the key in application.properties under gemini.api.key
+
+📂 Project Modules
+1. Controller
+
 EmailGeneratorController.java
+Handles POST requests to generate email responses.
 
-Model
+2. Model
+
 EmailRequest.java
+Represents the structure of the incoming request body.
 
-Service
-EmailGeneratorService
-//Build the prompt
-//Craft a request
-//Do request and get response
-//Return response
-
-
-<img width="1000" height="658" alt="image" src="https://github.com/user-attachments/assets/48471014-77ba-4239-8532-0a0e511bd0c0" />
-
-**Request Url** : http://localhost:8080/api/email/generate
-**Body:**
 {
-    "emailRequest" : "Hello, thank you for reaching to me,siva!!",
-    "tone" : "friendly"
+  "emailRequest": "Hello, thank you for reaching to me, Siva!!",
+  "tone": "friendly"
 }
 
-**API Response:**
+3. Service
 
+EmailGeneratorService.java
+Handles:
+
+✅ Prompt construction
+✅ Crafting the request to Gemini
+✅ Parsing and returning the AI-generated response
+
+URL: http://localhost:8080/api/email/generate
+
+Method: POST
+
+Content-Type: application/json
+
+✅ Request Body Example:
+{
+  "emailRequest": "Hello, thank you for reaching to me, Siva!!",
+  "tone": "friendly"
+}
+
+✅ Sample API Response:
 Subject: Re: Your Email
 
 Hello there,
-
 Thanks for reaching out! I appreciate you contacting me.
-
 Let me know how I can help.
-
-Best regards,
+Best regards,  
 Siva
+
+📌 How it Works
+User sends an email body and tone via API request.
+The service builds a professional prompt.
+The prompt is sent to Google Gemini API via WebClient.
+The AI response is returned and served via the REST endpoint.
